@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,15 +63,23 @@ public class MainActivity extends Activity {
 			return rootView;
 		}
 	}
+	
 
 	public void pressAuthBtn(View view) {
-		LoginFragment auth_fragment = new LoginFragment();
-		FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-		fragmentTransaction.replace(R.id.container, auth_fragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
+		SharedPreferences preferences = getSharedPreferences(getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
+		String accessToken = preferences.getString("accessToken", "");
+		if (accessToken == "") {
+			LoginFragment auth_fragment = new LoginFragment();
+			FragmentManager fragmentManager = getFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+	
+			fragmentTransaction.replace(R.id.container, auth_fragment);
+			fragmentTransaction.addToBackStack("main");
+			fragmentTransaction.commit();
+		} else {
+			Intent intent = new Intent(this, PhotoViewActivity.class);
+			startActivity(intent);
+		}
 
 	}
 }

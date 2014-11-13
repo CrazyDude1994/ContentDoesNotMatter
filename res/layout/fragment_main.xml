@@ -14,9 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="63dp"
-        android:text="@string/button_auth_start"
-        android:onClick="pressAuthBtn" />
+        android:layout_marginTop="22dp"
+        android:onClick="pressAuthBtn"
+        android:text="@string/button_auth_start" />
 
 </RelativeLayout>
