@@ -25,14 +25,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.crazy.contentdoesnotmatter.AuthActivity"
-            android:label="@string/title_activity_auth"
-            android:parentActivityName="com.crazy.contentdoesnotmatter.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.crazy.contentdoesnotmatter.MainActivity" />
-        </activity>
-        <activity
             android:name="com.crazy.contentdoesnotmatter.PhotoViewActivity"
             android:label="@string/title_activity_photo_view" >
         </activity>
