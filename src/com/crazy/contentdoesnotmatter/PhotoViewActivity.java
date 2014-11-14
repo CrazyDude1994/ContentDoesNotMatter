@@ -30,4 +30,16 @@ public class PhotoViewActivity extends Activity {
 		getMenuInflater().inflate(R.menu.photo_view, menu);
 		return true;
 	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+	}
 }
