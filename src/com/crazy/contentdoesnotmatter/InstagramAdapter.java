@@ -14,21 +14,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 
 public class InstagramAdapter extends BaseAdapter {
 
 	private String accessToken;
 	private ArrayList<String> Objects;
 	private Context context;
+	private LruCache<String, Bitmap> cache;
 
-	public InstagramAdapter(Context context, String accessToken) {
+	public InstagramAdapter(Context context, String accessToken, LruCache<String, Bitmap> cache) {
 		this.accessToken = accessToken;
 		this.Objects = new ArrayList<String>();
 		this.context = context;
+		this.cache = cache;
 		new FetchInstagramAnswer().execute(this.accessToken);
 	}
 
@@ -52,8 +56,14 @@ public class InstagramAdapter extends BaseAdapter {
 		ImageView view = (ImageView) convertView;
 		if (view == null) {
 			view = new ImageView(context);
-			new DownloadImageTask(view).execute(Objects.get(position));
-			view.setImageResource(R.drawable.ic_launcher);
+			view.setScaleType(ScaleType.CENTER_CROP);
+			Bitmap bmp = cache.get(Objects.get(position));
+			if (bmp != null) {
+				view.setImageBitmap(bmp);
+			} else {
+				new DownloadImageTask(view).execute(Objects.get(position));
+				view.setImageResource(R.drawable.placeholder);
+			}
 		}
 		return view;
 	}
@@ -122,6 +132,10 @@ public class InstagramAdapter extends BaseAdapter {
 			} catch (Exception e) {
 				Log.e("Error", e.getMessage());
 				e.printStackTrace();
+			}
+			
+			if (bmp != null) {
+				cache.put(urldisplay, bmp);
 			}
 			return bmp;
 		}
