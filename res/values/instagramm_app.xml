@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="client_id">7984b1f66b0a4eb4b31cbb59039e4524</string>
+	<string name="redirect_url">http://localhost/redirect</string>
+</resources>

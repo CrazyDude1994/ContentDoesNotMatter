@@ -15,10 +15,11 @@ public class PhotoViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_view);
-		SharedPreferences preferences = getSharedPreferences(getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
+		SharedPreferences preferences = getSharedPreferences(
+				getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
 		String accessToken = preferences.getString("accessToken", "");
 
-		adapter = new InstagramAdapter(accessToken);
+		adapter = new InstagramAdapter(this, accessToken);
 		GridView gridView = (GridView) findViewById(R.id.instagramView);
 		gridView.setAdapter(adapter);
 	}

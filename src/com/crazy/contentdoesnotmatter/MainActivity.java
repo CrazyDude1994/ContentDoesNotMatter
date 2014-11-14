@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 			fragmentTransaction.commit();
 		} else {
 			Intent intent = new Intent(this, PhotoViewActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		}
 
 	}

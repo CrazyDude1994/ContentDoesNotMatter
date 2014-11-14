@@ -14,9 +14,6 @@ import android.webkit.WebViewClient;
 
 public class LoginFragment extends Fragment {
 	
-	private static final String CLIENT_ID = "7984b1f66b0a4eb4b31cbb59039e4524";
-	private static final String REDIRECT_URL = "http://localhost/redirect";
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -28,10 +25,10 @@ public class LoginFragment extends Fragment {
 			
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				if (url.startsWith(REDIRECT_URL)) {
-					String accessToken = url.split(REDIRECT_URL + "#access_token=")[1]; // Get the access token
+				if (url.startsWith(getString(R.string.redirect_url))) {
+					String accessToken = url.split(getString(R.string.redirect_url) + "#access_token=")[1]; // Get the access token
 					FragmentManager fm = getActivity().getFragmentManager();
-		            fm.popBackStack ("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		            fm.popBackStack("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		            SharedPreferences preference = getActivity().getSharedPreferences(getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
 		            SharedPreferences.Editor editor = preference.edit();
 		            editor.putString("accessToken", accessToken);
@@ -44,8 +41,8 @@ public class LoginFragment extends Fragment {
 		}
 		
 		webView.setWebViewClient(new InstagramWebViewClient());
-		webView.loadUrl("https://instagram.com/oauth/authorize/?client_id=" + CLIENT_ID
-				+ "&redirect_uri=" + REDIRECT_URL + "&response_type=token");
+		webView.loadUrl("https://instagram.com/oauth/authorize/?client_id=" + getString(R.string.client_id)
+				+ "&redirect_uri=" + getString(R.string.redirect_url) + "&response_type=token");
 		return view;
 	}
 

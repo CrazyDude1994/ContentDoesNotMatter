@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -20,10 +23,12 @@ public class InstagramAdapter extends BaseAdapter {
 
 	private String accessToken;
 	private ArrayList<String> Objects;
+	private Context context;
 
-	public InstagramAdapter(String accessToken) {
+	public InstagramAdapter(Context context, String accessToken) {
 		this.accessToken = accessToken;
 		this.Objects = new ArrayList<String>();
+		this.context = context;
 		new FetchInstagramAnswer().execute(this.accessToken);
 	}
 
@@ -46,9 +51,8 @@ public class InstagramAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageView view = (ImageView) convertView;
 		if (view == null) {
-			view = new ImageView(parent.getContext());
-			new DownloadImageTask(view)
-					.execute(Objects.get(position));
+			view = new ImageView(context);
+			new DownloadImageTask(view).execute(Objects.get(position));
 			view.setImageResource(R.drawable.ic_launcher);
 		}
 		return view;
@@ -58,7 +62,19 @@ public class InstagramAdapter extends BaseAdapter {
 			AsyncTask<String, Void, ArrayList<String>> {
 
 		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/self/media/recent";
-
+		private ProgressDialog progressDialog;
+		
+		protected void onPreExecute() {
+			progressDialog = ProgressDialog.show(context, "Loading", "Please wait", true, true,
+				new DialogInterface.OnCancelListener(){
+	                @Override
+	                public void onCancel(DialogInterface dialog) {
+	                    FetchInstagramAnswer.this.cancel(true);
+	                    progressDialog.cancel();
+	                }
+	            });
+		}
+		
 		protected ArrayList<String> doInBackground(String... accessToken) {
 			String url = GET_USER_MEDIA + "?access_token=" + accessToken[0];
 			ArrayList<String> result = new ArrayList<String>();
@@ -67,7 +83,7 @@ public class InstagramAdapter extends BaseAdapter {
 				String response = utils.StreamToString(in);
 				JSONObject jsonObject = new JSONObject(response);
 				JSONArray data = jsonObject.getJSONArray("data");
-				
+
 				for (int i = 0; i < data.length(); i++) {
 					String imageURL = data.getJSONObject(i)
 							.getJSONObject("images").getJSONObject("thumbnail")
@@ -85,32 +101,33 @@ public class InstagramAdapter extends BaseAdapter {
 			for (String url : result) {
 				Objects.add(url);
 			}
+			progressDialog.dismiss();
 			notifyDataSetChanged();
 		}
 	}
 
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-		ImageView bmImage;
+		ImageView imgView;
 
 		public DownloadImageTask(ImageView bmImage) {
-			this.bmImage = bmImage;
+			this.imgView = bmImage;
 		}
 
 		protected Bitmap doInBackground(String... urls) {
 			String urldisplay = urls[0];
-			Bitmap mIcon11 = null;
+			Bitmap bmp = null;
 			try {
 				InputStream in = new URL(urldisplay).openStream();
-				mIcon11 = BitmapFactory.decodeStream(in);
+				bmp = BitmapFactory.decodeStream(in);
 			} catch (Exception e) {
 				Log.e("Error", e.getMessage());
 				e.printStackTrace();
 			}
-			return mIcon11;
+			return bmp;
 		}
 
 		protected void onPostExecute(Bitmap result) {
-			bmImage.setImageBitmap(result);
+			imgView.setImageBitmap(result);
 		}
 	}
 }
