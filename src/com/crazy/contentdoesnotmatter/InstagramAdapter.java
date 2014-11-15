@@ -56,14 +56,14 @@ public class InstagramAdapter extends BaseAdapter {
 		ImageView view = (ImageView) convertView;
 		if (view == null) {
 			view = new ImageView(context);
-			view.setScaleType(ScaleType.CENTER_CROP);
-			Bitmap bmp = cache.get(Objects.get(position));
-			if (bmp != null) {
-				view.setImageBitmap(bmp);
-			} else {
-				new DownloadImageTask(view).execute(Objects.get(position));
-				view.setImageResource(R.drawable.placeholder);
-			}
+		}
+		view.setScaleType(ScaleType.CENTER_CROP);
+		Bitmap bmp = cache.get(Objects.get(position));
+		if (bmp != null) {
+			view.setImageBitmap(bmp);
+		} else {
+			new DownloadImageTask(view).execute(Objects.get(position));
+			view.setImageResource(R.drawable.placeholder);
 		}
 		return view;
 	}
@@ -71,7 +71,7 @@ public class InstagramAdapter extends BaseAdapter {
 	private class FetchInstagramAnswer extends
 			AsyncTask<String, Void, ArrayList<String>> {
 
-		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/self/media/recent";
+		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/199862995/media/recent";
 		private ProgressDialog progressDialog;
 		
 		protected void onPreExecute() {
