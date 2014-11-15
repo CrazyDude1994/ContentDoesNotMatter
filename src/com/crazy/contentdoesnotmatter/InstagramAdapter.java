@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +16,10 @@ import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
@@ -25,14 +27,38 @@ public class InstagramAdapter extends BaseAdapter {
 
 	private String accessToken;
 	private ArrayList<String> Objects;
-	private Context context;
+	private GridView gridView;
 	private LruCache<String, Bitmap> cache;
+	private String nextUrl;
+	private Boolean isLoading;
 
-	public InstagramAdapter(Context context, String accessToken, LruCache<String, Bitmap> cache) {
+	public InstagramAdapter(GridView gridView, String accessToken, LruCache<String, Bitmap> cache) {
 		this.accessToken = accessToken;
 		this.Objects = new ArrayList<String>();
-		this.context = context;
+		this.gridView = gridView;
 		this.cache = cache;
+		this.nextUrl = "";
+		this.isLoading = false;
+		
+		gridView.setOnScrollListener(new OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if ((firstVisibleItem + visibleItemCount) >= totalItemCount) {
+					if (nextUrl != "" && isLoading == false) {
+						isLoading = true;
+						new FetchInstagramAnswer().execute(InstagramAdapter.this.accessToken);
+					}
+				}
+			}
+		});
+		
 		new FetchInstagramAnswer().execute(this.accessToken);
 	}
 
@@ -55,7 +81,7 @@ public class InstagramAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageView view = (ImageView) convertView;
 		if (view == null) {
-			view = new ImageView(context);
+			view = new ImageView(gridView.getContext());
 		}
 		view.setScaleType(ScaleType.CENTER_CROP);
 		Bitmap bmp = cache.get(Objects.get(position));
@@ -67,6 +93,7 @@ public class InstagramAdapter extends BaseAdapter {
 		}
 		return view;
 	}
+	
 
 	private class FetchInstagramAnswer extends
 			AsyncTask<String, Void, ArrayList<String>> {
@@ -75,7 +102,7 @@ public class InstagramAdapter extends BaseAdapter {
 		private ProgressDialog progressDialog;
 		
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(context, "Loading", "Please wait", true, true,
+			progressDialog = ProgressDialog.show(gridView.getContext(), "Loading", "Please wait", true, true,
 				new DialogInterface.OnCancelListener(){
 	                @Override
 	                public void onCancel(DialogInterface dialog) {
@@ -85,14 +112,21 @@ public class InstagramAdapter extends BaseAdapter {
 	            });
 		}
 		
-		protected ArrayList<String> doInBackground(String... accessToken) {
-			String url = GET_USER_MEDIA + "?access_token=" + accessToken[0];
+		protected ArrayList<String> doInBackground(String... accessTokens) {
+			String url;
+			String accessToken = accessTokens[0];
+			if (nextUrl == "") {
+				url = GET_USER_MEDIA + "?access_token=" + accessToken;
+			} else {
+				url = nextUrl;
+			}
 			ArrayList<String> result = new ArrayList<String>();
 			try {
 				InputStream in = new URL(url).openStream();
 				String response = utils.StreamToString(in);
 				JSONObject jsonObject = new JSONObject(response);
 				JSONArray data = jsonObject.getJSONArray("data");
+				JSONObject pagination = jsonObject.getJSONObject("pagination");
 
 				for (int i = 0; i < data.length(); i++) {
 					String imageURL = data.getJSONObject(i)
@@ -100,6 +134,8 @@ public class InstagramAdapter extends BaseAdapter {
 							.getString("url");
 					result.add(imageURL);
 				}
+				nextUrl = "";
+				nextUrl = pagination.getString("next_url");
 			} catch (Exception e) {
 				Log.e("Error", e.getMessage());
 				e.printStackTrace();
@@ -113,6 +149,7 @@ public class InstagramAdapter extends BaseAdapter {
 			}
 			progressDialog.dismiss();
 			notifyDataSetChanged();
+			isLoading = false;
 		}
 	}
 

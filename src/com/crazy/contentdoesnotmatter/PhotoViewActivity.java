@@ -34,8 +34,8 @@ public class PhotoViewActivity extends Activity {
 		    int cacheSize = maxMemory / 8;
 		    retainedFragment.setData(new LruCache<String, Bitmap>(cacheSize));
 		}
-		adapter = new InstagramAdapter(this, accessToken, retainedFragment.getData());
 		GridView gridView = (GridView) findViewById(R.id.instagramView);
+		adapter = new InstagramAdapter(gridView, accessToken, retainedFragment.getData());
 		gridView.setAdapter(adapter);
 	}
 
