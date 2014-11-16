@@ -1,4 +1,4 @@
-package com.crazy.contentdoesnotmatter;
+package com.crazy.contentdoesnotmatter.adapters;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -22,6 +22,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+
+import com.crazy.contentdoesnotmatter.R;
+import com.crazy.utils.utils;
 
 public class InstagramAdapter extends BaseAdapter {
 

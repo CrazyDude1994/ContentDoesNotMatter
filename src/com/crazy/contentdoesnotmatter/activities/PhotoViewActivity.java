@@ -1,4 +1,4 @@
-package com.crazy.contentdoesnotmatter;
+package com.crazy.contentdoesnotmatter.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.util.LruCache;
 import android.view.Menu;
 import android.widget.GridView;
+
+import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.adapters.InstagramAdapter;
+import com.crazy.contentdoesnotmatter.fragments.RetainedFragment;
 
 public class PhotoViewActivity extends Activity {
 

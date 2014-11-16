@@ -1,4 +1,4 @@
-package com.crazy.contentdoesnotmatter;
+package com.crazy.contentdoesnotmatter.fragments;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;

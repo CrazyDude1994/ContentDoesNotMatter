@@ -1,4 +1,4 @@
-package com.crazy.contentdoesnotmatter;
+package com.crazy.contentdoesnotmatter.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.fragments.LoginFragment;
 
 public class MainActivity extends Activity {
 
