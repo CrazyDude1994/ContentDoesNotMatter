@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,14 @@ import android.view.ViewGroup;
 
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.LoginFragment;
+import com.crazy.contentdoesnotmatter.views.PhotoView;
 
 public class MainActivity extends Activity {
+	
+	public final static int SELECT_INSTAGRAM_PHOTO = 0;
+	
+	public final static String EXTRA_THUMBNAIL = "com.crazy.contentdoesnotmatter.EXTRA_THUMNAIL";
+	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +35,22 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case SELECT_INSTAGRAM_PHOTO:
+			if (resultCode == RESULT_OK) {
+				Bitmap thumbnailBitmap = data.getParcelableExtra(EXTRA_THUMBNAIL);
+				String fullSizeURL = data.getStringExtra(EXTRA_FULL_SIZE);
+				PhotoView photoView = (PhotoView)findViewById(R.id.photoView1);
+				photoView.setImageBitmap(thumbnailBitmap);
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -65,7 +84,7 @@ public class MainActivity extends Activity {
 			fragmentTransaction.commit();
 		} else {
 			Intent intent = new Intent(this, PhotoViewActivity.class);
-			startActivityForResult(intent, 0);
+			startActivityForResult(intent, SELECT_INSTAGRAM_PHOTO);
 		}
 	}
 }

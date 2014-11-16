@@ -21,9 +21,9 @@ public class PhotoView extends ImageView {
 	
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.save();
-		canvas.rotate(45);
+//		canvas.save();
+//		canvas.rotate(45);
 		super.draw(canvas);
-		canvas.restore();
+//		canvas.restore();
 	}
 }

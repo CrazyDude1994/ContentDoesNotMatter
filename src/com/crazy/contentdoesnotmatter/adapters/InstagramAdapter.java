@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -18,12 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.activities.MainActivity;
 import com.crazy.utils.utils;
 
 public class InstagramAdapter extends BaseAdapter {
@@ -36,8 +41,9 @@ public class InstagramAdapter extends BaseAdapter {
 	private Boolean isLoading;
 	
 	public class PhotoInfo {
-		public String thumnailURL = "";
+		public String thumbnailURL = "";
 		public String fullSizeURL = "";
+		public Bitmap thumbnailBitmap;
 	}
 
 	public InstagramAdapter(GridView gridView, String accessToken, LruCache<String, Bitmap> cache) {
@@ -67,6 +73,19 @@ public class InstagramAdapter extends BaseAdapter {
 			}
 		});
 		
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> p, View view, int position,
+					long id) {
+				Intent resultIntent = new Intent();
+				resultIntent.putExtra(MainActivity.EXTRA_THUMBNAIL, Objects.get(position).thumbnailBitmap);
+				resultIntent.putExtra(MainActivity.EXTRA_FULL_SIZE, Objects.get(position).fullSizeURL);
+				Activity photoAcitivity = (Activity)InstagramAdapter.this.gridView.getContext();
+				photoAcitivity.setResult(Activity.RESULT_OK, resultIntent);
+				photoAcitivity.finish();
+			}
+		});
+		
 		new FetchInstagramAnswer().execute(this.accessToken);
 	}
 
@@ -92,11 +111,11 @@ public class InstagramAdapter extends BaseAdapter {
 			view = new ImageView(gridView.getContext());
 		}
 		view.setScaleType(ScaleType.CENTER_CROP);
-		Bitmap bmp = cache.get(Objects.get(position).thumnailURL);
+		Bitmap bmp = cache.get(Objects.get(position).thumbnailURL);
 		if (bmp != null) {
 			view.setImageBitmap(bmp);
 		} else {
-			new DownloadImageTask(view).execute(Objects.get(position).thumnailURL);
+			new DownloadImageTask(view, Objects.get(position)).execute(Objects.get(position).thumbnailURL);
 			view.setImageResource(R.drawable.placeholder);
 		}
 		return view;
@@ -141,14 +160,17 @@ public class InstagramAdapter extends BaseAdapter {
 					PhotoInfo photoInfo = new PhotoInfo();
 					JSONObject images = data.getJSONObject(i)
 							.getJSONObject("images");
-					photoInfo.thumnailURL = images.getJSONObject("thumbnail")
+					photoInfo.thumbnailURL = images.getJSONObject("thumbnail")
 							.getString("url");
 					photoInfo.fullSizeURL = images.getJSONObject("standard_resolution")
 							.getString("url");
 					result.add(photoInfo);
 				}
-				nextUrl = "";
-				nextUrl = pagination.getString("next_url");
+				if (pagination.isNull("next_url")) {
+					nextUrl = "";
+				} else {
+					nextUrl = pagination.getString("next_url");
+				}
 			} catch (Exception e) {
 				Log.e("Error", e.getMessage());
 				e.printStackTrace();
@@ -167,10 +189,13 @@ public class InstagramAdapter extends BaseAdapter {
 	}
 
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+		
 		ImageView imgView;
+		PhotoInfo photoInfo;
 
-		public DownloadImageTask(ImageView bmImage) {
+		public DownloadImageTask(ImageView bmImage, PhotoInfo photoInfo) {
 			this.imgView = bmImage;
+			this.photoInfo = photoInfo;
 		}
 
 		protected Bitmap doInBackground(String... urls) {
@@ -191,6 +216,7 @@ public class InstagramAdapter extends BaseAdapter {
 		}
 
 		protected void onPostExecute(Bitmap result) {
+			photoInfo.thumbnailBitmap = result;
 			imgView.setImageBitmap(result);
 		}
 	}
