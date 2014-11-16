@@ -29,15 +29,20 @@ import com.crazy.utils.utils;
 public class InstagramAdapter extends BaseAdapter {
 
 	private String accessToken;
-	private ArrayList<String> Objects;
+	private ArrayList<PhotoInfo> Objects;
 	private GridView gridView;
 	private LruCache<String, Bitmap> cache;
 	private String nextUrl;
 	private Boolean isLoading;
+	
+	public class PhotoInfo {
+		public String thumnailURL = "";
+		public String fullSizeURL = "";
+	}
 
 	public InstagramAdapter(GridView gridView, String accessToken, LruCache<String, Bitmap> cache) {
 		this.accessToken = accessToken;
-		this.Objects = new ArrayList<String>();
+		this.Objects = new ArrayList<PhotoInfo>();
 		this.gridView = gridView;
 		this.cache = cache;
 		this.nextUrl = "";
@@ -87,11 +92,11 @@ public class InstagramAdapter extends BaseAdapter {
 			view = new ImageView(gridView.getContext());
 		}
 		view.setScaleType(ScaleType.CENTER_CROP);
-		Bitmap bmp = cache.get(Objects.get(position));
+		Bitmap bmp = cache.get(Objects.get(position).thumnailURL);
 		if (bmp != null) {
 			view.setImageBitmap(bmp);
 		} else {
-			new DownloadImageTask(view).execute(Objects.get(position));
+			new DownloadImageTask(view).execute(Objects.get(position).thumnailURL);
 			view.setImageResource(R.drawable.placeholder);
 		}
 		return view;
@@ -99,9 +104,10 @@ public class InstagramAdapter extends BaseAdapter {
 	
 
 	private class FetchInstagramAnswer extends
-			AsyncTask<String, Void, ArrayList<String>> {
+			AsyncTask<String, Void, ArrayList<PhotoInfo>> {
 
-		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/199862995/media/recent";
+		//final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/199862995/media/recent";
+		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/self/media/recent";
 		private ProgressDialog progressDialog;
 		
 		protected void onPreExecute() {
@@ -115,7 +121,7 @@ public class InstagramAdapter extends BaseAdapter {
 	            });
 		}
 		
-		protected ArrayList<String> doInBackground(String... accessTokens) {
+		protected ArrayList<PhotoInfo> doInBackground(String... accessTokens) {
 			String url;
 			String accessToken = accessTokens[0];
 			if (nextUrl == "") {
@@ -123,7 +129,7 @@ public class InstagramAdapter extends BaseAdapter {
 			} else {
 				url = nextUrl;
 			}
-			ArrayList<String> result = new ArrayList<String>();
+			ArrayList<PhotoInfo> result = new ArrayList<PhotoInfo>();
 			try {
 				InputStream in = new URL(url).openStream();
 				String response = utils.StreamToString(in);
@@ -132,10 +138,14 @@ public class InstagramAdapter extends BaseAdapter {
 				JSONObject pagination = jsonObject.getJSONObject("pagination");
 
 				for (int i = 0; i < data.length(); i++) {
-					String imageURL = data.getJSONObject(i)
-							.getJSONObject("images").getJSONObject("thumbnail")
+					PhotoInfo photoInfo = new PhotoInfo();
+					JSONObject images = data.getJSONObject(i)
+							.getJSONObject("images");
+					photoInfo.thumnailURL = images.getJSONObject("thumbnail")
 							.getString("url");
-					result.add(imageURL);
+					photoInfo.fullSizeURL = images.getJSONObject("standard_resolution")
+							.getString("url");
+					result.add(photoInfo);
 				}
 				nextUrl = "";
 				nextUrl = pagination.getString("next_url");
@@ -146,8 +156,8 @@ public class InstagramAdapter extends BaseAdapter {
 			return result;
 		}
 
-		protected void onPostExecute(ArrayList<String> result) {
-			for (String url : result) {
+		protected void onPostExecute(ArrayList<PhotoInfo> result) {
+			for (PhotoInfo url : result) {
 				Objects.add(url);
 			}
 			progressDialog.dismiss();
