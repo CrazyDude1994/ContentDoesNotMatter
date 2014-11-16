@@ -18,4 +18,14 @@
         android:onClick="pressAuthBtn"
         android:text="@string/button_auth_start" />
 
+    <com.crazy.contentdoesnotmatter.views.PhotoView
+        android:id="@+id/photoView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignRight="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/ic_launcher" />
+
 </RelativeLayout>
