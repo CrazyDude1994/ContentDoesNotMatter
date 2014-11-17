@@ -1,5 +1,8 @@
 package com.crazy.contentdoesnotmatter.activities;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -8,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +25,7 @@ import com.crazy.contentdoesnotmatter.views.PhotoView;
 public class MainActivity extends Activity {
 	
 	public final static int SELECT_INSTAGRAM_PHOTO = 0;
+	public final static int SELECT_GALLERY_PHOTO = 1;
 	
 	public final static String EXTRA_THUMBNAIL = "com.crazy.contentdoesnotmatter.EXTRA_THUMNAIL";
 	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
@@ -43,11 +49,24 @@ public class MainActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				Bitmap thumbnailBitmap = data.getParcelableExtra(EXTRA_THUMBNAIL);
 				String fullSizeURL = data.getStringExtra(EXTRA_FULL_SIZE);
-				PhotoView photoView = (PhotoView)findViewById(R.id.photoView1);
+				PhotoView photoView = (PhotoView)findViewById(R.id.firstImage);
 				photoView.setImageBitmap(thumbnailBitmap);
 			}
 			break;
-
+		case SELECT_GALLERY_PHOTO:
+			if (resultCode == RESULT_OK) {
+				Uri image = data.getData();
+	            InputStream imageStream;
+				try {
+					imageStream = getContentResolver().openInputStream(image);
+		            Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+		            PhotoView photoView = (PhotoView)findViewById(R.id.secondImage);
+		            photoView.setImageBitmap(selectedImage);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
+			break;
 		default:
 			break;
 		}
@@ -71,7 +90,7 @@ public class MainActivity extends Activity {
 	}
 	
 
-	public void pressAuthBtn(View view) {
+	public void pressInstagramButton(View view) {
 		SharedPreferences preferences = getSharedPreferences(getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
 		String accessToken = preferences.getString("accessToken", "");
 		if (accessToken == "") {
@@ -87,4 +106,12 @@ public class MainActivity extends Activity {
 			startActivityForResult(intent, SELECT_INSTAGRAM_PHOTO);
 		}
 	}
+	
+	public void pressGalleryButton(View view) {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, SELECT_GALLERY_PHOTO);
+	}
+	
 }

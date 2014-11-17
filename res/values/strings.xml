@@ -8,5 +8,6 @@
     <string name="button_auth_start">Instagram</string>
     <string name="title_activity_photo_view">Image Browser</string>
     <string name="preferense_file_name">com.crazy.contentdoesnotmatter.PREFERENCE_FILE_KEY</string>
+    <string name="gallery_button">Gallery</string>
 
 </resources>

@@ -8,18 +8,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.crazy.contentdoesnotmatter.MainActivity$PlaceholderFragment" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp"
-        android:onClick="pressAuthBtn"
-        android:text="@string/button_auth_start" />
-
     <com.crazy.contentdoesnotmatter.views.PhotoView
-        android:id="@+id/photoView1"
+        android:id="@+id/firstImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
@@ -28,5 +18,35 @@
         android:layout_marginTop="48dp"
         android:background="@drawable/photo_frame"
         android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="49dp"
+        android:onClick="pressInstagramButton"
+        android:text="@string/button_auth_start" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/firstImage"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="36dp"
+        android:layout_toRightOf="@+id/button1"
+        android:text="@string/gallery_button" 
+        android:onClick="pressGalleryButton"/>
+
+    <com.crazy.contentdoesnotmatter.views.PhotoView
+        android:id="@+id/secondImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_centerVertical="true"
+        android:src="@drawable/photo_frame" />
 
 </RelativeLayout>
