@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 			break;
 		}
 
-		if (topImageURI != "" && botImageURI != "") {
+		if (topImageURI != null && botImageURI != null) {
 			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
 		}
 	}
@@ -164,6 +164,10 @@ public class MainActivity extends Activity {
 	}
 
 	public void startEdit(View view) {
-		
+		Intent intent = new Intent(this, PhotoEditActivity.class);
+		intent.putExtra(PhotoEditActivity.FIRST_IMAGE, topImageURI);
+		intent.putExtra(PhotoEditActivity.SECOND_IMAGE, botImageURI);
+
+		startActivity(intent);
 	}
 }

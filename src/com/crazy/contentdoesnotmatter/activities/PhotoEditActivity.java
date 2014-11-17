@@ -11,8 +11,8 @@ public class PhotoEditActivity extends Activity {
 	private String firstImage;
 	private String secondImage;
 	
-	private static final String FIRST_IMAGE = "com.crazy.contentdoesnotmatter.FIRST_IMAGE";
-	private static final String SECOND_IMAGE = "com.crazy.contentdoesnotmatter.SECOND_IMAGE";
+	public static final String FIRST_IMAGE = "com.crazy.contentdoesnotmatter.FIRST_IMAGE";
+	public static final String SECOND_IMAGE = "com.crazy.contentdoesnotmatter.SECOND_IMAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
