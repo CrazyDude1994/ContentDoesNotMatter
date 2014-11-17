@@ -32,8 +32,8 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
 	public final static String EXTRA_VIEW_ID = "com.crazy.contentdoesnotmatter.EXTRA_VIEW_ID";
 
-	private String firstImageURL = "";
-	private String secondImageURL = "";
+	private String topImageURI;
+	private String botImageURI;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,11 @@ public class MainActivity extends Activity {
 				int callerId = data.getIntExtra(EXTRA_VIEW_ID, 0);
 				PhotoView photoView = (PhotoView) findViewById(callerId);
 				photoView.setImageBitmap(thumbnailBitmap);
-				firstImageURL = "lol";
+				if (callerId == R.id.topImage) {
+					topImageURI = fullSizeURL;
+				} else {
+					botImageURI = fullSizeURL;
+				}
 			}
 			break;
 		case SELECT_TOP_GALLERY_PHOTO:
@@ -72,21 +76,22 @@ public class MainActivity extends Activity {
 					PhotoView photoView;
 					if (requestCode == SELECT_BOT_GALLERY_PHOTO) {
 						photoView = (PhotoView)findViewById(R.id.bottomImage);
+						botImageURI = image.toString();
 					} else {
 						photoView = (PhotoView)findViewById(R.id.topImage);
+						topImageURI = image.toString();
 					}
 					photoView.setImageBitmap(Bitmap.createScaledBitmap(selectedImage, 150, 150, false));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-				secondImageURL = "lol";
 			}
 			break;
 		default:
 			break;
 		}
 
-		if (firstImageURL != "" && secondImageURL != "") {
+		if (topImageURI != "" && botImageURI != "") {
 			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
 		}
 	}
@@ -104,6 +109,7 @@ public class MainActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			rootView.findViewById(R.id.startEditButton).setVisibility(View.INVISIBLE);
 			return rootView;
 		}
 	}
@@ -157,4 +163,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	public void startEdit(View view) {
+		
+	}
 }
