@@ -39,6 +39,7 @@ public class InstagramAdapter extends BaseAdapter {
 	private LruCache<String, Bitmap> cache;
 	private String nextUrl;
 	private Boolean isLoading;
+	private int callerViewId;
 	
 	public class PhotoInfo {
 		public String thumbnailURL = "";
@@ -46,13 +47,14 @@ public class InstagramAdapter extends BaseAdapter {
 		public Bitmap thumbnailBitmap;
 	}
 
-	public InstagramAdapter(GridView gridView, String accessToken, LruCache<String, Bitmap> cache) {
+	public InstagramAdapter(GridView gridView, String accessToken, LruCache<String, Bitmap> cache, int callerId) {
 		this.accessToken = accessToken;
 		this.Objects = new ArrayList<PhotoInfo>();
 		this.gridView = gridView;
 		this.cache = cache;
 		this.nextUrl = "";
 		this.isLoading = false;
+		this.callerViewId = callerId;
 		
 		gridView.setOnScrollListener(new OnScrollListener() {
 			
@@ -81,6 +83,7 @@ public class InstagramAdapter extends BaseAdapter {
 				resultIntent.putExtra(MainActivity.EXTRA_THUMBNAIL, Objects.get(position).thumbnailBitmap);
 				resultIntent.putExtra(MainActivity.EXTRA_FULL_SIZE, Objects.get(position).fullSizeURL);
 				Activity photoAcitivity = (Activity)InstagramAdapter.this.gridView.getContext();
+				resultIntent.putExtra(MainActivity.EXTRA_VIEW_ID, callerViewId);
 				photoAcitivity.setResult(Activity.RESULT_OK, resultIntent);
 				photoAcitivity.finish();
 			}

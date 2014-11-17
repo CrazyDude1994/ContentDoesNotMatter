@@ -9,5 +9,8 @@
     <string name="title_activity_photo_view">Image Browser</string>
     <string name="preferense_file_name">com.crazy.contentdoesnotmatter.PREFERENCE_FILE_KEY</string>
     <string name="gallery_button">Gallery</string>
+    <string name="start_edit_button">Edit!</string>
+    <string name="title_activity_photo_edit">PhotoEditActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

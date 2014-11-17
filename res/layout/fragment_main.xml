@@ -9,44 +9,67 @@
     tools:context="com.crazy.contentdoesnotmatter.MainActivity$PlaceholderFragment" >
 
     <com.crazy.contentdoesnotmatter.views.PhotoView
-        android:id="@+id/firstImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/photo_frame"
-        android:src="@drawable/ic_launcher" />
-
-    <Button
-        android:id="@+id/button1"
+        android:id="@+id/topImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="49dp"
+        android:background="@drawable/photo_frame" />
+
+    <com.crazy.contentdoesnotmatter.views.PhotoView
+        android:id="@+id/bottomImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/photo_frame" />
+
+    <Button
+        android:id="@+id/topGalleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/topImage"
+        android:layout_toRightOf="@+id/topImage"
+        android:onClick="pressGalleryButton"
+        android:text="@string/gallery_button" />
+
+    <Button
+        android:id="@+id/topInstagramButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/topImage"
+        android:layout_alignLeft="@+id/topGalleryButton"
+        android:layout_alignParentRight="true"
         android:onClick="pressInstagramButton"
         android:text="@string/button_auth_start" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/startEditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/firstImage"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="36dp"
-        android:layout_toRightOf="@+id/button1"
-        android:text="@string/gallery_button" 
-        android:onClick="pressGalleryButton"/>
-
-    <com.crazy.contentdoesnotmatter.views.PhotoView
-        android:id="@+id/secondImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignRight="@+id/button2"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/photo_frame" />
+        android:text="@string/start_edit_button" />
+
+    <Button
+        android:id="@+id/bottomInstagramButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/bottomImage"
+        android:layout_toLeftOf="@+id/bottomImage"
+        android:onClick="pressInstagramButton"
+        android:text="@string/button_auth_start" />
+
+    <Button
+        android:id="@+id/bottomGalleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bottomImage"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/bottomImage"
+        android:onClick="pressGalleryButton"
+        android:text="@string/gallery_button" />
 
 </RelativeLayout>

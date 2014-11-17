@@ -26,6 +26,10 @@
             android:name="com.crazy.contentdoesnotmatter.activities.PhotoViewActivity"
             android:label="@string/title_activity_photo_view" >
         </activity>
+        <activity
+            android:name="com.crazy.contentdoesnotmatter.activities.PhotoEditActivity"
+            android:label="@string/title_activity_photo_edit" >
+        </activity>
     </application>
 
 </manifest>
