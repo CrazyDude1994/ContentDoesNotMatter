@@ -30,11 +30,11 @@ public class LoginFragment extends Fragment {
 				if (url.startsWith(getString(R.string.redirect_url))) {
 					String accessToken = url.split(getString(R.string.redirect_url) + "#access_token=")[1]; // Get the access token
 					FragmentManager fm = getActivity().getFragmentManager();
-		            fm.popBackStack("main", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		            SharedPreferences preference = getActivity().getSharedPreferences(getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
 		            SharedPreferences.Editor editor = preference.edit();
 		            editor.putString("accessToken", accessToken);
 		            editor.commit();
+		            fm.popBackStack();
 					return true;
 				} else {
 					return false;

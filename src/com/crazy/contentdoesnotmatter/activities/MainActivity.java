@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
 					.beginTransaction();
 
 			fragmentTransaction.replace(R.id.container, auth_fragment);
-			fragmentTransaction.addToBackStack("main");
+			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
 		} else {
 			Intent intent = new Intent(this, PhotoViewActivity.class);
