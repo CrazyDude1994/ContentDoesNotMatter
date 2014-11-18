@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 
-			fragmentTransaction.replace(R.id.container, auth_fragment);
+			fragmentTransaction.add(R.id.container, auth_fragment);
 			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
 		} else {
