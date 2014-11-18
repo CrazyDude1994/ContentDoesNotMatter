@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -19,6 +20,7 @@ public class ImageEditView extends ImageView {
 	public ImageEditView(Context context) {
 		super(context);
 		paint = new Paint();
+		this.alphaDifference = 127;
 	}
 	
 	public ImageEditView(Context context, Bitmap firstBitmap, Bitmap secondBitmap) {
@@ -42,8 +44,11 @@ public class ImageEditView extends ImageView {
 	}
 	
 	public void setBitmaps(Bitmap firstBitmap, Bitmap secondBitmap) {
-		this.firstBmp = firstBitmap;
-		this.secondBmp = secondBitmap;
+		if (firstBitmap != null)
+			this.firstBmp = firstBitmap;
+		if (secondBitmap != null)
+			this.secondBmp = secondBitmap;
+		invalidate();
 	}
 	
 	public void setAlpaDifference(int alpha) {
@@ -53,11 +58,17 @@ public class ImageEditView extends ImageView {
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int difference = 255 - alphaDifference;
-		paint.setAlpha(this.alphaDifference);
-		canvas.drawBitmap(firstBmp, getImageMatrix(), paint);
-		paint.setAlpha(difference);
-		canvas.drawBitmap(secondBmp, getImageMatrix(), paint);
+		if (!isInEditMode()) {
+			int difference = 255 - alphaDifference;
+			paint.setAlpha(this.alphaDifference);
+			if (firstBmp != null) {
+				canvas.drawBitmap(firstBmp, 0, 0, paint);
+			}
+			paint.setAlpha(difference);
+			if (secondBmp != null) {
+				canvas.drawBitmap(secondBmp, 0, 0, paint);
+			}
+		}
 		super.onDraw(canvas);
 	}
 	
