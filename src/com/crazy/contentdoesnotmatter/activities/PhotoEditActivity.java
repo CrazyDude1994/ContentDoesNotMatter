@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -77,6 +78,7 @@ public class PhotoEditActivity extends Activity {
 
 		final ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
+		
 
 		SeekBar seekBar = (SeekBar) findViewById(R.id.alphaSeekBar);
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -100,6 +102,16 @@ public class PhotoEditActivity extends Activity {
 			}
 		});
 
+	}
+	
+	public void setFirst(View view) {
+		ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
+		imgView.setFirst();
+	}
+	
+	public void setSecond(View view) {
+		ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
+		imgView.setSecond();
 	}
 
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

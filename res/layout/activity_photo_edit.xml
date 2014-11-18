@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/alphaSeekBar"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/ic_launcher" />
+        android:background="@drawable/ic_launcher" 
+        android:onClick="setFirst"/>
 
     <Button
         android:id="@+id/secondImageButton"
@@ -22,16 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" 
-        android:background="@drawable/ic_launcher"/>
-
-    <com.crazy.contentdoesnotmatter.views.ImageEditView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/alphaSeekBar"
-        android:layout_alignLeft="@+id/alphaSeekBar"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/alphaSeekBar" />
+        android:background="@drawable/ic_launcher"
+        android:onClick="setSecond"/>
 
     <SeekBar
         android:id="@+id/alphaSeekBar"
@@ -41,5 +34,22 @@
         android:layout_alignRight="@+id/secondImageButton"
         android:progress="127"
         android:max="255" />
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/gestureOverlayView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/alphaSeekBar"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_alignTop="@+id/imageView1" >
+
+    </android.gesture.GestureOverlayView>
+
+    <com.crazy.contentdoesnotmatter.views.ImageEditView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/alphaSeekBar"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
