@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -56,7 +57,8 @@ public class MainActivity extends Activity {
 				String fullSizeURL = data.getStringExtra(EXTRA_FULL_SIZE);
 				int callerId = data.getIntExtra(EXTRA_VIEW_ID, 0);
 				PhotoView photoView = (PhotoView) findViewById(callerId);
-				photoView.setImageBitmap(thumbnailBitmap);
+				BitmapDrawable drawableBitmap = new BitmapDrawable(thumbnailBitmap);
+				photoView.setBackgroundDrawable(drawableBitmap);
 				if (callerId == R.id.topImage) {
 					topImageURI = fullSizeURL;
 				} else {
@@ -81,7 +83,8 @@ public class MainActivity extends Activity {
 						photoView = (PhotoView)findViewById(R.id.topImage);
 						topImageURI = image.toString();
 					}
-					photoView.setImageBitmap(Bitmap.createScaledBitmap(selectedImage, 150, 150, false));
+					BitmapDrawable drawableBitmap = new BitmapDrawable(Bitmap.createScaledBitmap(selectedImage, 150, 150, false));
+					photoView.setBackgroundDrawable(drawableBitmap);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -110,6 +113,8 @@ public class MainActivity extends Activity {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
 			rootView.findViewById(R.id.startEditButton).setVisibility(View.INVISIBLE);
+			((PhotoView)rootView.findViewById(R.id.topImage)).setRotate(-5);
+			((PhotoView)rootView.findViewById(R.id.bottomImage)).setRotate(5);
 			return rootView;
 		}
 	}
