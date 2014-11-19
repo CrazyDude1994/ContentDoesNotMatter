@@ -104,7 +104,7 @@ public class PhotoEditActivity extends Activity {
 	}
 
 	public void saveImage(View view) {
-		String type = "images/*";
+		String type = "image/*";
 		String caption = "#ContentDoesNotMatter";
 
 		Intent intent = new Intent(Intent.ACTION_SEND);
