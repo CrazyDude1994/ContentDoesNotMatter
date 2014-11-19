@@ -21,6 +21,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.views.ImageEditView;
+import com.crazy.utils.utils;
 
 public class PhotoEditActivity extends Activity {
 
@@ -59,7 +60,7 @@ public class PhotoEditActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (secondImageUri.toString().startsWith("http")) {
 			new DownloadImageTask(SECOND_IMAGE).execute(secondImage);
 		} else {
@@ -74,7 +75,6 @@ public class PhotoEditActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-
 
 		final ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
@@ -102,12 +102,25 @@ public class PhotoEditActivity extends Activity {
 		});
 
 	}
-	
+
+	public void saveImage(View view) {
+		String type = "images/*";
+		String caption = "#ContentDoesNotMatter";
+
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType(type);
+		ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
+		intent.putExtra(Intent.EXTRA_STREAM,
+				utils.getImageUri(this, imgView.getCropperBitmap()));
+		intent.putExtra(Intent.EXTRA_TEXT, caption);
+		startActivity(Intent.createChooser(intent, "Share to"));
+	}
+
 	public void setFirst(View view) {
 		ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setFirst();
 	}
-	
+
 	public void setSecond(View view) {
 		ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setSecond();
@@ -121,10 +134,11 @@ public class PhotoEditActivity extends Activity {
 		public DownloadImageTask(String imageId) {
 			this.imageId = imageId;
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(PhotoEditActivity.this, "Loading", "Please wait");
+			progressDialog = ProgressDialog.show(PhotoEditActivity.this,
+					"Loading", "Please wait");
 		}
 
 		protected Bitmap doInBackground(String... urls) {
@@ -142,7 +156,8 @@ public class PhotoEditActivity extends Activity {
 		}
 
 		protected void onPostExecute(Bitmap result) {
-			ImageEditView view = (ImageEditView)PhotoEditActivity.this.findViewById(R.id.photoEditView);
+			ImageEditView view = (ImageEditView) PhotoEditActivity.this
+					.findViewById(R.id.photoEditView);
 			if (imageId == FIRST_IMAGE) {
 				view.setBitmaps(result, null);
 			} else {
