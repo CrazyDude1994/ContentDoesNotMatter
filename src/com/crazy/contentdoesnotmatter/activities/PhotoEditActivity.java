@@ -76,9 +76,8 @@ public class PhotoEditActivity extends Activity {
 		}
 
 
-		final ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
+		final ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
-		
 
 		SeekBar seekBar = (SeekBar) findViewById(R.id.alphaSeekBar);
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -105,12 +104,12 @@ public class PhotoEditActivity extends Activity {
 	}
 	
 	public void setFirst(View view) {
-		ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
+		ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setFirst();
 	}
 	
 	public void setSecond(View view) {
-		ImageEditView imgView = (ImageEditView) findViewById(R.id.imageView1);
+		ImageEditView imgView = (ImageEditView) findViewById(R.id.photoEditView);
 		imgView.setSecond();
 	}
 
@@ -143,7 +142,7 @@ public class PhotoEditActivity extends Activity {
 		}
 
 		protected void onPostExecute(Bitmap result) {
-			ImageEditView view = (ImageEditView)PhotoEditActivity.this.findViewById(R.id.imageView1);
+			ImageEditView view = (ImageEditView)PhotoEditActivity.this.findViewById(R.id.photoEditView);
 			if (imageId == FIRST_IMAGE) {
 				view.setBitmaps(result, null);
 			} else {
