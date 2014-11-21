@@ -10,27 +10,26 @@
 
     <com.crazy.contentdoesnotmatter.views.PhotoView
         android:id="@+id/topImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="50dp"
+        android:layout_height="39dp"
         android:layout_alignParentTop="true"
-        android:src="@drawable/photo_frame" 
-        android:background="@drawable/placeholder"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/placeholder"
+        android:src="@drawable/photo_frame" />
 
     <com.crazy.contentdoesnotmatter.views.PhotoView
         android:id="@+id/bottomImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="39dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" 
-        android:src="@drawable/photo_frame"
-        android:background="@drawable/placeholder"/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/placeholder"
+        android:src="@drawable/photo_frame" />
 
     <Button
         android:id="@+id/topGalleryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/topImage"
         android:layout_toRightOf="@+id/topImage"
         android:onClick="pressGalleryButton"
@@ -42,16 +41,15 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/start_edit_button" 
-        android:onClick="startEdit"/>
+        android:onClick="startEdit"
+        android:text="@string/start_edit_button" />
 
     <Button
-        android:id="@+id/bottomInstagramButton"
+        android:id="@+id/topInstagramButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/bottomImage"
-        android:layout_toLeftOf="@+id/bottomImage"
+        android:layout_alignLeft="@+id/topGalleryButton"
+        android:layout_below="@+id/topGalleryButton"
         android:onClick="pressInstagramButton"
         android:text="@string/button_auth_start" />
 
@@ -60,17 +58,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/bottomImage"
-        android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/bottomImage"
         android:onClick="pressGalleryButton"
         android:text="@string/gallery_button" />
 
     <Button
-        android:id="@+id/topInstagramButton"
+        android:id="@+id/bottomInstagramButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/topImage"
-        android:layout_alignLeft="@+id/topGalleryButton"
+        android:layout_above="@+id/bottomGalleryButton"
+        android:layout_alignRight="@+id/bottomGalleryButton"
         android:onClick="pressInstagramButton"
         android:text="@string/button_auth_start" />
 

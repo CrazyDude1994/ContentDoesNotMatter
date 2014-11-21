@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,9 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_THUMBNAIL = "com.crazy.contentdoesnotmatter.EXTRA_THUMNAIL";
 	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
 	public final static String EXTRA_VIEW_ID = "com.crazy.contentdoesnotmatter.EXTRA_VIEW_ID";
+	
+	private final static String TOP_IMAGE = "com.crazy.contentdoesnotmatter.TOP_IMAGE";
+	private final static String BOT_IMAGE = "com.crazy.contentdoesnotmatter.BOT_IMAGE";
 
 	private String topImageURI;
 	private String botImageURI;
@@ -44,7 +48,17 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
+		} else {
+			topImageURI = savedInstanceState.getString(TOP_IMAGE, "");
+			botImageURI = savedInstanceState.getString(BOT_IMAGE, "");
 		}
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(TOP_IMAGE, topImageURI);
+		outState.putString(BOT_IMAGE, botImageURI);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -106,6 +120,7 @@ public class MainActivity extends Activity {
 
 		public PlaceholderFragment() {
 		}
+		
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,6 +130,7 @@ public class MainActivity extends Activity {
 			rootView.findViewById(R.id.startEditButton).setVisibility(View.INVISIBLE);
 			((PhotoView)rootView.findViewById(R.id.topImage)).setRotate(-5);
 			((PhotoView)rootView.findViewById(R.id.bottomImage)).setRotate(5);
+			
 			return rootView;
 		}
 	}
