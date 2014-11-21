@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -12,12 +11,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.LoginFragment;
@@ -29,9 +25,12 @@ public class MainActivity extends Activity {
 	public final static int SELECT_TOP_GALLERY_PHOTO = 1;
 	public final static int SELECT_BOT_GALLERY_PHOTO = 2;
 
-	public final static String EXTRA_THUMBNAIL = "com.crazy.contentdoesnotmatter.EXTRA_THUMNAIL";
+	public final static String EXTRA_THUMBNAIL = "com.crazy.contentdoesnotmatter.EXTRA_THUMBNAIL";
 	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
 	public final static String EXTRA_VIEW_ID = "com.crazy.contentdoesnotmatter.EXTRA_VIEW_ID";
+	
+	public final static String TOP_IMAGE = "com.crazy.contentdoesnotmatter.EXTRA_TOP_IMAGE";
+	public final static String BOT_IMAGE = "com.crazy.contentdoesnotmatter.EXTRA_BOT_IMAGE";
 
 	private String topImageURI;
 	private String botImageURI;
@@ -40,11 +39,27 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+		
+		if (savedInstanceState != null) {
+			String topImage = savedInstanceState.getString(TOP_IMAGE);
+			String botImage = savedInstanceState.getString(BOT_IMAGE);
+			if (topImage != "")
+				topImageURI = topImage;
+			if (botImage != "")
+				botImageURI = botImage;
 		}
+		if (topImageURI != null && botImageURI != null) {
+			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
+		} else {
+			findViewById(R.id.startEditButton).setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(TOP_IMAGE, topImageURI);
+		outState.putString(BOT_IMAGE, botImageURI);
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -57,8 +72,7 @@ public class MainActivity extends Activity {
 				String fullSizeURL = data.getStringExtra(EXTRA_FULL_SIZE);
 				int callerId = data.getIntExtra(EXTRA_VIEW_ID, 0);
 				PhotoView photoView = (PhotoView) findViewById(callerId);
-				BitmapDrawable drawableBitmap = new BitmapDrawable(thumbnailBitmap);
-				photoView.setBackgroundDrawable(drawableBitmap);
+				photoView.setImage(thumbnailBitmap);
 				if (callerId == R.id.topImage) {
 					topImageURI = fullSizeURL;
 				} else {
@@ -83,8 +97,8 @@ public class MainActivity extends Activity {
 						photoView = (PhotoView)findViewById(R.id.topImage);
 						topImageURI = image.toString();
 					}
-					BitmapDrawable drawableBitmap = new BitmapDrawable(Bitmap.createScaledBitmap(selectedImage, 150, 150, false));
-					photoView.setBackgroundDrawable(drawableBitmap);
+					selectedImage = Bitmap.createScaledBitmap(selectedImage, 150, 150, false);
+					photoView.setImage(selectedImage);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -96,26 +110,6 @@ public class MainActivity extends Activity {
 
 		if (topImageURI != null && botImageURI != null) {
 			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
-		}
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			rootView.findViewById(R.id.startEditButton).setVisibility(View.INVISIBLE);
-			((PhotoView)rootView.findViewById(R.id.topImage)).setRotate(-5);
-			((PhotoView)rootView.findViewById(R.id.bottomImage)).setRotate(5);
-			return rootView;
 		}
 	}
 
@@ -174,5 +168,13 @@ public class MainActivity extends Activity {
 		intent.putExtra(PhotoEditActivity.SECOND_IMAGE, botImageURI);
 
 		startActivity(intent);
+	}
+
+	public String getTopImageURI() {
+		return topImageURI;
+	}
+
+	public String getBotImageURI() {
+		return botImageURI;
 	}
 }

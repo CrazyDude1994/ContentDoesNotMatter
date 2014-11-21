@@ -14,17 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/photo_frame" 
-        android:background="@drawable/placeholder"/>
+        android:src="@drawable/photo_frame" />
 
     <com.crazy.contentdoesnotmatter.views.PhotoView
         android:id="@+id/bottomImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" 
-        android:src="@drawable/photo_frame"
-        android:background="@drawable/placeholder"/>
+        android:layout_alignParentRight="true"
+        android:src="@drawable/photo_frame" />
 
     <Button
         android:id="@+id/topGalleryButton"
