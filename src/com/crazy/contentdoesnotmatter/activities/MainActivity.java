@@ -29,8 +29,8 @@ public class MainActivity extends Activity {
 	public final static String EXTRA_FULL_SIZE = "com.crazy.contentdoesnotmatter.EXTRA_FULL_SIZE";
 	public final static String EXTRA_VIEW_ID = "com.crazy.contentdoesnotmatter.EXTRA_VIEW_ID";
 	
-	private final static String TOP_IMAGE = "com.crazy.contentdoesnotmatter.TOP_IMAGE";
-	private final static String BOT_IMAGE = "com.crazy.contentdoesnotmatter.BOT_IMAGE";
+	public final static String TOP_IMAGE = "com.crazy.contentdoesnotmatter.EXTRA_TOP_IMAGE";
+	public final static String BOT_IMAGE = "com.crazy.contentdoesnotmatter.EXTRA_BOT_IMAGE";
 
 	private String topImageURI;
 	private String botImageURI;
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);	
+		setContentView(R.layout.activity_main);
 		if (savedInstanceState != null) {
 			String topImage = savedInstanceState.getString(TOP_IMAGE);
 			String botImage = savedInstanceState.getString(BOT_IMAGE);
@@ -111,7 +111,7 @@ public class MainActivity extends Activity {
 			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	public void pressInstagramButton(View view) {
 		SharedPreferences preferences = getSharedPreferences(
 				getString(R.string.preferense_file_name), Context.MODE_PRIVATE);
