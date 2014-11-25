@@ -8,46 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PhotoEditActivity" >
 
-    <Button
-        android:id="@+id/firstImageButton"
+    <FrameLayout
+        android:id="@+id/navigation_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/alphaSeekBar"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/ic_launcher" 
-        android:onClick="setFirst"/>
+        android:layout_alignParentTop="true" />
 
-    <Button
-        android:id="@+id/secondImageButton"
+    <FrameLayout
+        android:id="@+id/photo_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" 
-        android:background="@drawable/ic_launcher"
-        android:onClick="setSecond"/>
+        android:layout_below="@+id/navigation_placeholder" />
 
-    <SeekBar
-        android:id="@+id/alphaSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/firstImageButton"
-        android:layout_alignRight="@+id/secondImageButton"
-        android:progress="127"
-        android:max="255" />
-
-    <Button
-        android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
+    <FrameLayout
+        android:id="@+id/tools_placeholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Button" 
-        android:onClick="saveImage"/>
-
-    <com.crazy.contentdoesnotmatter.views.ImageEditView
-        android:id="@+id/photoEditView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_below="@id/navigation_placeholder" />
 
 </RelativeLayout>

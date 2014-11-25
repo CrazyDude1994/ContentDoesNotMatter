@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.fragments.PhotoCropFragment;
 import com.crazy.contentdoesnotmatter.views.ImageEditView;
 import com.crazy.utils.utils;
 
@@ -100,7 +101,11 @@ public class PhotoEditActivity extends Activity {
 				imgView.setAlpaDifference(progress);
 			}
 		});
-
+		
+		if (savedInstanceState == null) {
+			PhotoCropFragment cropFragment = new PhotoCropFragment();
+			getFragmentManager().beginTransaction().add(R.id.photo_placeholder, cropFragment).commit();
+		}
 	}
 
 	public void saveImage(View view) {
