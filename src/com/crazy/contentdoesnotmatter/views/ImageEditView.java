@@ -1,9 +1,13 @@
 package com.crazy.contentdoesnotmatter.views;
 
+import com.crazy.contentdoesnotmatter.classes.shaders.GrayscaleShader;
+import com.crazy.contentdoesnotmatter.classes.shaders.SepiaShader;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -52,7 +56,7 @@ public class ImageEditView extends View implements
 	private int alphaDifference;
 	private ScaleGestureDetector scaleDetector;
 	private float oldX, oldY;
-	
+
 	private static final int OUTPUT_SIZE = 640;
 
 	public ImageEditView(Context context) {
@@ -74,14 +78,15 @@ public class ImageEditView extends View implements
 		super(context, attrs, defaultStyle);
 		init(context);
 	}
-	
+
 	private void init(Context context) {
 		this.paint = new Paint();
 		this.alphaDifference = 127;
 		this.firstImage = new DrawableInfo(null, null);
 		this.secondImage = new DrawableInfo(null, null);
 		this.scaleDetector = new ScaleGestureDetector(context, this);
-		this.outputBitmap = Bitmap.createBitmap(OUTPUT_SIZE, OUTPUT_SIZE, Config.ARGB_8888);
+		this.outputBitmap = Bitmap.createBitmap(OUTPUT_SIZE, OUTPUT_SIZE,
+				Config.ARGB_8888);
 		this.editableCanvas = new Canvas(this.outputBitmap);
 		this.tempMatrix = new Matrix();
 		setFirst();
@@ -90,10 +95,11 @@ public class ImageEditView extends View implements
 	public Bitmap getCropperBitmap() {
 		editableCanvas.save();
 		Bitmap tempBitmap = Bitmap.createBitmap(outputBitmap);
+		//new SepiaShader().applyShader(tempBitmap);
+		//new GrayscaleShader().applyShader(tempBitmap);
 		editableCanvas.restore();
 		return tempBitmap;
 	}
-
 
 	public void setBitmaps(Bitmap firstBitmap, Bitmap secondBitmap) {
 		if (firstBitmap != null)
@@ -145,14 +151,14 @@ public class ImageEditView extends View implements
 		this.alphaDifference = alpha;
 		invalidate();
 	}
-	
+
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
 		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 		if (widthSize > heightSize) {
 			widthSize = heightSize;
-		} else if (widthSize < heightSize){
+		} else if (widthSize < heightSize) {
 			heightSize = widthSize;
 		}
 		setMeasuredDimension(widthSize, heightSize);
@@ -169,7 +175,8 @@ public class ImageEditView extends View implements
 						firstImage.getMatrix(), paint);
 				tempMatrix.set(firstImage.getMatrix());
 				tempMatrix.postScale(scale, scale);
-				editableCanvas.drawBitmap(firstImage.getBitMap(), tempMatrix, paint);
+				editableCanvas.drawBitmap(firstImage.getBitMap(), tempMatrix,
+						paint);
 			}
 			paint.setAlpha(difference);
 			if (secondImage.getBitMap() != null) {
@@ -177,7 +184,8 @@ public class ImageEditView extends View implements
 						secondImage.getMatrix(), paint);
 				tempMatrix.set(secondImage.getMatrix());
 				tempMatrix.postScale(scale, scale);
-				editableCanvas.drawBitmap(secondImage.getBitMap(), tempMatrix, paint);
+				editableCanvas.drawBitmap(secondImage.getBitMap(), tempMatrix,
+						paint);
 			}
 		}
 		super.onDraw(canvas);
