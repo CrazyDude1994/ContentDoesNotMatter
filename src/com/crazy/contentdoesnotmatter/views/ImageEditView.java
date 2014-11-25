@@ -11,10 +11,6 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.crazy.contentdoesnotmatter.classes.shaders.RemoveBlueShader;
-import com.crazy.contentdoesnotmatter.classes.shaders.RemoveGreenShader;
-import com.crazy.contentdoesnotmatter.classes.shaders.RemoveRedShader;
-
 public class ImageEditView extends View implements
 		ScaleGestureDetector.OnScaleGestureListener {
 

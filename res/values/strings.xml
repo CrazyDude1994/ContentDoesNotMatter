@@ -11,6 +11,6 @@
     <string name="gallery_button">Gallery</string>
     <string name="start_edit_button">Edit!</string>
     <string name="title_activity_photo_edit">PhotoEditActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="share_to">Share it with world!</string>
 
 </resources>
