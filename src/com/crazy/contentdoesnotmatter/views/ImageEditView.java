@@ -1,19 +1,19 @@
 package com.crazy.contentdoesnotmatter.views;
 
-import com.crazy.contentdoesnotmatter.classes.shaders.GrayscaleShader;
-import com.crazy.contentdoesnotmatter.classes.shaders.SepiaShader;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import com.crazy.contentdoesnotmatter.classes.shaders.RemoveBlueShader;
+import com.crazy.contentdoesnotmatter.classes.shaders.RemoveGreenShader;
+import com.crazy.contentdoesnotmatter.classes.shaders.RemoveRedShader;
 
 public class ImageEditView extends View implements
 		ScaleGestureDetector.OnScaleGestureListener {
@@ -97,6 +97,9 @@ public class ImageEditView extends View implements
 		Bitmap tempBitmap = Bitmap.createBitmap(outputBitmap);
 		//new SepiaShader().applyShader(tempBitmap);
 		//new GrayscaleShader().applyShader(tempBitmap);
+		//new RemoveRedShader().applyShader(tempBitmap);
+		//new RemoveBlueShader().applyShader(tempBitmap);
+		//new RemoveGreenShader().applyShader(tempBitmap);
 		editableCanvas.restore();
 		return tempBitmap;
 	}
