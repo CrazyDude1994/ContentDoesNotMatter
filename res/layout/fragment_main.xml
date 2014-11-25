@@ -13,8 +13,6 @@
         android:layout_width="50dp"
         android:layout_height="39dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/placeholder"
         android:src="@drawable/photo_frame" />
 
     <com.crazy.contentdoesnotmatter.views.PhotoView
@@ -22,8 +20,7 @@
         android:layout_width="50dp"
         android:layout_height="39dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/placeholder"
+        android:layout_alignParentRight="true"
         android:src="@drawable/photo_frame" />
 
     <Button
