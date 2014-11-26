@@ -64,13 +64,13 @@ public class PhotoCropFragment extends Fragment implements OnClickListener {
 				imgView.setAlpaDifference(progress);
 			}
 		});
-		
+
 		Bundle arguments = getArguments();
 		setFirstImage(arguments.getString(FIRST_IMAGE));
 		setSecondImage(arguments.getString(SECOND_IMAGE));
 		return rootView;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -83,13 +83,13 @@ public class PhotoCropFragment extends Fragment implements OnClickListener {
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	}
-	
+
 	public String getFirstImage() {
 		return firstImage;
 	}
