@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.PhotoCropFragment;
+import com.crazy.contentdoesnotmatter.fragments.PhotoShareFragment;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment;
 
 public class PhotoEditActivity extends Activity {
@@ -27,11 +28,15 @@ public class PhotoEditActivity extends Activity {
 			arguments.putString(PhotoCropFragment.SECOND_IMAGE,
 					intent.getStringExtra(SECOND_IMAGE));
 			cropFragment.setArguments(arguments);
+			
 			SelectorFragment fragmentSwitcher = new SelectorFragment();
+			PhotoShareFragment shareFragment = new PhotoShareFragment();
 			getFragmentManager().beginTransaction()
 					.add(R.id.photo_placeholder, cropFragment)
 					.add(R.id.navigation_placeholder, fragmentSwitcher)
 					.commit();
+			fragmentSwitcher.addFragmentToList(cropFragment);
+			fragmentSwitcher.addFragmentToList(shareFragment);
 		}
 	}
 }

@@ -64,7 +64,8 @@ public class PhotoCropFragment extends Fragment implements OnClickListener {
 				imgView.setAlpaDifference(progress);
 			}
 		});
-
+		rootView.findViewById(R.id.firstImageButton).setOnClickListener(this);
+		rootView.findViewById(R.id.secondImageButton).setOnClickListener(this);
 		Bundle arguments = getArguments();
 		setFirstImage(arguments.getString(FIRST_IMAGE));
 		setSecondImage(arguments.getString(SECOND_IMAGE));
