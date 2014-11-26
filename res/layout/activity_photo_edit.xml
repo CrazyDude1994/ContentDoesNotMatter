@@ -16,15 +16,8 @@
 
     <FrameLayout
         android:id="@+id/photo_placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/navigation_placeholder" />
-
-    <FrameLayout
-        android:id="@+id/tools_placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/navigation_placeholder" />
 
 </RelativeLayout>
