@@ -6,14 +6,13 @@ import com.crazy.contentdoesnotmatter.interfaces.ImageShader;
 
 public abstract class PixelShader implements ImageShader {
 	
-	public abstract int calculatePixel(int color);
+	public abstract int[] calculatePixels(int[] pixels);
 	
 	public void applyShader(Bitmap bitmap) {
-		for (int x = 0; x < bitmap.getWidth(); x++) {
-			for (int y = 0; y < bitmap.getHeight(); y++) {
-				bitmap.setPixel(x, y, calculatePixel(bitmap.getPixel(x, y)));
-			}
-		}
+		int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+		bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+		int[] result = calculatePixels(pixels);
+		bitmap.setPixels(result, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
 	}
 
 }

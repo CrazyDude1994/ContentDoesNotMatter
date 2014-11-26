@@ -3,6 +3,7 @@ package com.crazy.contentdoesnotmatter.fragments;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +29,8 @@ public class PhotoEffectsFragment extends Fragment implements OnClickListener {
 		rootView.findViewById(R.id.grayScaleButton).setOnClickListener(this);
 		originalImage = getArguments().getParcelable(SelectorFragment.RESULT);
 		imgView = (ImageView)rootView.findViewById(R.id.imageEditEffect);
-		imgView.setImageBitmap(originalImage);
+		resultImage = Bitmap.createBitmap(originalImage);
+		imgView.setImageBitmap(resultImage);
 		return rootView;
 	}
 	
@@ -36,8 +38,12 @@ public class PhotoEffectsFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.sepiaButton:	
-			resultImage = originalImage;
+			resultImage = Bitmap.createBitmap(originalImage);
+			long startTime = System.currentTimeMillis();
 			new SepiaShader().applyShader(resultImage);
+			long stopTime = System.currentTimeMillis();
+		    long elapsedTime = stopTime - startTime;
+		    Log.d("TIME", Long.toString(elapsedTime));
 			imgView.setImageBitmap(resultImage);
 			break;
 			
