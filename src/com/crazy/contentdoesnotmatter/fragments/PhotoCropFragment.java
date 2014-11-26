@@ -16,15 +16,16 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.ResultReturner;
 import com.crazy.contentdoesnotmatter.views.ImageEditView;
 
-public class PhotoCropFragment extends Fragment implements OnClickListener {
+public class PhotoCropFragment extends Fragment implements OnClickListener, ResultReturner {
 
 	private String firstImage;
 	private String secondImage;
@@ -71,6 +72,13 @@ public class PhotoCropFragment extends Fragment implements OnClickListener {
 		setSecondImage(arguments.getString(SECOND_IMAGE));
 		return rootView;
 	}
+	
+	@Override
+	public Bundle returnResult() {
+		Bundle result = new Bundle();
+		result.putParcelable(SelectorFragment.RESULT, imgView.getCropperBitmap());
+		return result;
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -84,7 +92,6 @@ public class PhotoCropFragment extends Fragment implements OnClickListener {
 		default:
 			break;
 		}
-
 	}
 
 	@Override

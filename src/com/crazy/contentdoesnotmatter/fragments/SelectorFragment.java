@@ -2,6 +2,7 @@ package com.crazy.contentdoesnotmatter.fragments;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,17 @@ import android.view.ViewGroup;
 import com.crazy.contentdoesnotmatter.R;
 
 public class SelectorFragment extends Fragment implements OnClickListener {
+	
+	public static final String RESULT = "FRAGMENT_RESULT";
+	
+	public interface OnFragmentChangeListener {
+		public void onNextFragment(Fragment receiver, Bundle data);
+		public void onPreviousFragment(Fragment receiver, Bundle data);
+	}
+	
+	public interface ResultReturner {
+		public Bundle returnResult();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -20,9 +32,25 @@ public class SelectorFragment extends Fragment implements OnClickListener {
 
 	private ArrayList<Fragment> fragmentList;
 	private int currentFragmentId = 0;
+	private View previousButton;
+	private View nextButton;
+	
+	private OnFragmentChangeListener callback;
 
 	public SelectorFragment() {
 		this.fragmentList = new ArrayList<Fragment>();
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+            callback = (OnFragmentChangeListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentChangeListener");
+        }
+
 	}
 
 	@Override
@@ -46,9 +74,10 @@ public class SelectorFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_switcher, container,
 				false);
-		rootView.findViewById(R.id.previousFragmentButton).setOnClickListener(
-				this);
-		rootView.findViewById(R.id.nextFragmentButton).setOnClickListener(this);
+		previousButton = rootView.findViewById(R.id.previousFragmentButton);
+		previousButton.setOnClickListener(this);
+		nextButton = rootView.findViewById(R.id.nextFragmentButton);
+		nextButton.setOnClickListener(this);
 		return rootView;
 	}
 
@@ -58,11 +87,20 @@ public class SelectorFragment extends Fragment implements OnClickListener {
 
 	public boolean navigateNextFragment() {
 		if (currentFragmentId < fragmentList.size() - 1) {
+			Fragment currentFragment = fragmentList.get(currentFragmentId);
 			currentFragmentId++;
+			Fragment nextFragment = fragmentList.get(currentFragmentId);
+			Bundle data = null;
+			if (currentFragment instanceof ResultReturner) {
+				data = ((ResultReturner) currentFragment).returnResult();
+			}
 			getFragmentManager()
 					.beginTransaction()
 					.replace(R.id.photo_placeholder,
-							fragmentList.get(currentFragmentId)).commit();
+							nextFragment).commit();
+			if (data != null) {
+				callback.onNextFragment(nextFragment, data);
+			}
 			return true;
 		} else {
 			return false;
@@ -76,6 +114,7 @@ public class SelectorFragment extends Fragment implements OnClickListener {
 					.beginTransaction()
 					.replace(R.id.photo_placeholder,
 							fragmentList.get(currentFragmentId)).commit();
+
 			return true;
 		} else {
 			return false;
