@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.PhotoCropFragment;
+import com.crazy.contentdoesnotmatter.fragments.PhotoEffectsFragment;
 import com.crazy.contentdoesnotmatter.fragments.PhotoShareFragment;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.OnFragmentChangeListener;
@@ -45,11 +46,13 @@ public class PhotoEditActivity extends Activity implements OnFragmentChangeListe
 			
 			SelectorFragment fragmentSwitcher = new SelectorFragment();
 			PhotoShareFragment shareFragment = new PhotoShareFragment();
+			PhotoEffectsFragment effectsFragment = new PhotoEffectsFragment();
 			getFragmentManager().beginTransaction()
 					.add(R.id.photo_placeholder, cropFragment)
 					.add(R.id.navigation_placeholder, fragmentSwitcher)
 					.commit();
 			fragmentSwitcher.addFragmentToList(cropFragment);
+			fragmentSwitcher.addFragmentToList(effectsFragment);
 			fragmentSwitcher.addFragmentToList(shareFragment);
 		}
 	}
