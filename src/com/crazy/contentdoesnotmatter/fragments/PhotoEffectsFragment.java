@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.crazy.contentdoesnotmatter.R;
+import com.crazy.contentdoesnotmatter.classes.shaders.BlueberryShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.GrayscaleShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.SepiaShader;
 
@@ -27,6 +28,7 @@ public class PhotoEffectsFragment extends Fragment implements OnClickListener {
 				container, false);
 		rootView.findViewById(R.id.sepiaButton).setOnClickListener(this);
 		rootView.findViewById(R.id.grayScaleButton).setOnClickListener(this);
+		rootView.findViewById(R.id.blueBerryButton).setOnClickListener(this);
 		originalImage = getArguments().getParcelable(SelectorFragment.RESULT);
 		imgView = (ImageView)rootView.findViewById(R.id.imageEditEffect);
 		resultImage = Bitmap.createBitmap(originalImage);
@@ -39,18 +41,21 @@ public class PhotoEffectsFragment extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.sepiaButton:	
 			resultImage = Bitmap.createBitmap(originalImage);
-			long startTime = System.currentTimeMillis();
 			new SepiaShader().applyShader(resultImage);
-			long stopTime = System.currentTimeMillis();
-		    long elapsedTime = stopTime - startTime;
-		    Log.d("TIME", Long.toString(elapsedTime));
 			imgView.setImageBitmap(resultImage);
 			break;
 			
 		case R.id.grayScaleButton:
-			resultImage = originalImage;
+			resultImage = Bitmap.createBitmap(originalImage);
 			new GrayscaleShader().applyShader(resultImage);
 			imgView.setImageBitmap(resultImage);
+			break;
+			
+		case R.id.blueBerryButton:
+			resultImage = Bitmap.createBitmap(originalImage);
+			new BlueberryShader().applyShader(resultImage);
+			imgView.setImageBitmap(resultImage);
+			break;
 
 		default:
 			break;

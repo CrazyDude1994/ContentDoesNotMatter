@@ -20,5 +20,12 @@
         android:layout_toRightOf="@id/sepiaButton"
         android:layout_alignParentBottom="true"
         android:text="Grayscale"/>
+    
+    <Button android:id="@+id/blueBerryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/grayScaleButton"
+        android:layout_alignParentBottom="true"
+        android:text="Blueberry"/>
 
 </RelativeLayout>
