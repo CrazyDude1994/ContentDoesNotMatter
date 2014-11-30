@@ -14,8 +14,9 @@ import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.classes.shaders.BlueberryShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.GrayscaleShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.SepiaShader;
+import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.ResultReturner;
 
-public class PhotoEffectsFragment extends Fragment implements OnClickListener {
+public class PhotoEffectsFragment extends Fragment implements OnClickListener, ResultReturner {
 	
 	private Bitmap resultImage;
 	private Bitmap originalImage;
@@ -61,5 +62,12 @@ public class PhotoEffectsFragment extends Fragment implements OnClickListener {
 			break;
 		}
 		
+	}
+
+	@Override
+	public Bundle returnResult() {
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(SelectorFragment.RESULT, resultImage);
+		return bundle;
 	}
 }

@@ -168,7 +168,7 @@ public class ImageEditView extends View implements
 		if (!isInEditMode()) {
 			int difference = 255 - alphaDifference;
 			paint.setAlpha(alphaDifference);
-			float scale = OUTPUT_SIZE / getHeight();
+			float scale = (float)OUTPUT_SIZE / getHeight();
 			if (firstImage.getBitMap() != null) {
 				canvas.drawBitmap(firstImage.getBitMap(),
 						firstImage.getMatrix(), paint);
