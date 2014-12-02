@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 public class PhotoView extends ImageView {
 	
-	private int rotation = 5;
+	private int rotation = 0;
 	
 	private Bitmap image;
 	

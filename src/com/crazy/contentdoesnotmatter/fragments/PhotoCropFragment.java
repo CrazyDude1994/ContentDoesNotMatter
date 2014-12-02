@@ -24,6 +24,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.ResultReturner;
 import com.crazy.contentdoesnotmatter.views.ImageEditView;
+import com.crazy.contentdoesnotmatter.views.PhotoView;
 
 public class PhotoCropFragment extends Fragment implements OnClickListener, ResultReturner {
 
@@ -32,6 +33,9 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 
 	private Bitmap firstImageBitmap;
 	private Bitmap secondImageBitmap;
+	
+	private PhotoView firstButton;
+	private PhotoView secondButton;
 
 	public static final String FIRST_IMAGE = "com.crazy.contentdoesnotmatter.PhotoCrop.FIRST_IMAGE";
 	public static final String SECOND_IMAGE = "com.crazy.contentdoesnotmatter.PhotoCrop.SECOND_IMAGE";
@@ -65,8 +69,12 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				imgView.setAlpaDifference(progress);
 			}
 		});
-		rootView.findViewById(R.id.firstImageButton).setOnClickListener(this);
-		rootView.findViewById(R.id.secondImageButton).setOnClickListener(this);
+		firstButton = (PhotoView)rootView.findViewById(R.id.firstImageButton);
+		secondButton = (PhotoView)rootView.findViewById(R.id.secondImageButton);
+		firstButton.setOnClickListener(this);
+		secondButton.setOnClickListener(this);
+		firstButton.setRotate(5);
+		secondButton.setRotate(-5);
 		Bundle arguments = getArguments();
 		setFirstImage(arguments.getString(FIRST_IMAGE));
 		setSecondImage(arguments.getString(SECOND_IMAGE));
@@ -121,6 +129,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				e.printStackTrace();
 			}
 		}
+		firstButton.setImage(Bitmap.createScaledBitmap(firstImageBitmap, 100, 100, false));
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
 	}
 
@@ -147,6 +156,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				e.printStackTrace();
 			}
 		}
+		secondButton.setImage(Bitmap.createScaledBitmap(secondImageBitmap, 100, 100, false));
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
 	}
 
