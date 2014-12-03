@@ -91,11 +91,6 @@ public class ImageEditView extends View implements
 	public Bitmap getCropperBitmap() {
 		editableCanvas.save();
 		Bitmap tempBitmap = Bitmap.createBitmap(outputBitmap);
-		//new SepiaShader().applyShader(tempBitmap);
-		//new GrayscaleShader().applyShader(tempBitmap);
-		//new RemoveRedShader().applyShader(tempBitmap);
-		//new RemoveBlueShader().applyShader(tempBitmap);
-		//new RemoveGreenShader().applyShader(tempBitmap);
 		editableCanvas.restore();
 		return tempBitmap;
 	}

@@ -102,10 +102,6 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 		}
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-	}
-
 	public String getFirstImage() {
 		return firstImage;
 	}
@@ -121,6 +117,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				firstImageBitmap = MediaStore.Images.Media.getBitmap(
 						PhotoCropFragment.this.getActivity()
 								.getContentResolver(), firstImageUri);
+				firstButton.setImage(Bitmap.createScaledBitmap(firstImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,7 +126,6 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				e.printStackTrace();
 			}
 		}
-		firstButton.setImage(Bitmap.createScaledBitmap(firstImageBitmap, 100, 100, false));
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
 	}
 
@@ -148,6 +144,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				secondImageBitmap = MediaStore.Images.Media.getBitmap(
 						PhotoCropFragment.this.getActivity()
 								.getContentResolver(), secondImageUri);
+				secondButton.setImage(Bitmap.createScaledBitmap(secondImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -156,7 +153,6 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 				e.printStackTrace();
 			}
 		}
-		secondButton.setImage(Bitmap.createScaledBitmap(secondImageBitmap, 100, 100, false));
 		imgView.setBitmaps(firstImageBitmap, secondImageBitmap);
 	}
 
@@ -193,8 +189,10 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 		protected void onPostExecute(Bitmap result) {
 			if (imageId == FIRST_IMAGE) {
 				imgView.setBitmaps(result, null);
+				firstButton.setImage(Bitmap.createScaledBitmap(result, 100, 100, false));
 			} else {
 				imgView.setBitmaps(null, result);
+				secondButton.setImage(Bitmap.createScaledBitmap(result, 100, 100, false));
 			}
 			progressDialog.dismiss();
 		}
