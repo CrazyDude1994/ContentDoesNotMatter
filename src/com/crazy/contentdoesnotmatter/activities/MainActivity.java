@@ -1,8 +1,5 @@
 package com.crazy.contentdoesnotmatter.activities;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,10 +11,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.LoginFragment;
 import com.crazy.contentdoesnotmatter.views.PhotoView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class MainActivity extends Activity {
 
@@ -46,6 +45,8 @@ public class MainActivity extends Activity {
 				topImageURI = topImage;
 			if (botImage != "")
 				botImageURI = botImage;
+
+
 		}
 		if (topImageURI != null && botImageURI != null) {
 			findViewById(R.id.startEditButton).setVisibility(View.VISIBLE);
@@ -86,8 +87,11 @@ public class MainActivity extends Activity {
 				InputStream imageStream;
 				try {
 					imageStream = getContentResolver().openInputStream(image);
+					BitmapFactory.Options options = new BitmapFactory.Options();
+					options.outHeight = 150;
+					options.outWidth = 150;
 					Bitmap selectedImage = BitmapFactory
-							.decodeStream(imageStream);
+							.decodeStream(imageStream, null, options);
 					PhotoView photoView;
 					if (requestCode == SELECT_BOT_GALLERY_PHOTO) {
 						photoView = (PhotoView)findViewById(R.id.bottomImage);
@@ -96,7 +100,6 @@ public class MainActivity extends Activity {
 						photoView = (PhotoView)findViewById(R.id.topImage);
 						topImageURI = image.toString();
 					}
-					selectedImage = Bitmap.createScaledBitmap(selectedImage, 150, 150, false);
 					photoView.setImage(selectedImage);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

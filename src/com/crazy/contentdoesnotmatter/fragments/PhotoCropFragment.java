@@ -1,18 +1,17 @@
 package com.crazy.contentdoesnotmatter.fragments;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.ResultReturner;
 import com.crazy.contentdoesnotmatter.views.ImageEditView;
 import com.crazy.contentdoesnotmatter.views.PhotoView;
+import com.crazy.utils.utils;
 
 public class PhotoCropFragment extends Fragment implements OnClickListener, ResultReturner {
 
@@ -114,14 +114,10 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 			new DownloadImageTask(FIRST_IMAGE).execute(firstImage);
 		} else {
 			try {
-				firstImageBitmap = MediaStore.Images.Media.getBitmap(
-						PhotoCropFragment.this.getActivity()
-								.getContentResolver(), firstImageUri);
+				AssetFileDescriptor fileDescriptor = getActivity().getContentResolver().openAssetFileDescriptor(firstImageUri, "r");
+				firstImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 600, 600);
 				firstButton.setImage(Bitmap.createScaledBitmap(firstImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -141,14 +137,10 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 			new DownloadImageTask(SECOND_IMAGE).execute(secondImage);
 		} else {
 			try {
-				secondImageBitmap = MediaStore.Images.Media.getBitmap(
-						PhotoCropFragment.this.getActivity()
-								.getContentResolver(), secondImageUri);
+				AssetFileDescriptor fileDescriptor = getActivity().getContentResolver().openAssetFileDescriptor(secondImageUri, "r");
+				secondImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 600, 600);
 				secondButton.setImage(Bitmap.createScaledBitmap(secondImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

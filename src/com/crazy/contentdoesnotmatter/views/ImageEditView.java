@@ -82,7 +82,7 @@ public class ImageEditView extends View implements
 		this.secondImage = new DrawableInfo(null, null);
 		this.scaleDetector = new ScaleGestureDetector(context, this);
 		this.outputBitmap = Bitmap.createBitmap(OUTPUT_SIZE, OUTPUT_SIZE,
-				Config.ARGB_8888);
+				Config.RGB_565);
 		this.editableCanvas = new Canvas(this.outputBitmap);
 		this.tempMatrix = new Matrix();
 		setFirst();
