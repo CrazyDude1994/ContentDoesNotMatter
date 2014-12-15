@@ -13,7 +13,7 @@ public class RemoveGreenShader extends PixelShader {
 			int color = pixels[i];
 			result[i] = Color.rgb(Color.red(color), 0, Color.blue(color));
 		}
-		return pixels;
+		return result;
 	}
 
 }

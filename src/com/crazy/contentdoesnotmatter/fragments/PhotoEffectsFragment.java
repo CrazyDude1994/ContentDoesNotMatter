@@ -21,6 +21,7 @@ import com.crazy.contentdoesnotmatter.classes.shaders.RemoveGreenShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.RemoveRedShader;
 import com.crazy.contentdoesnotmatter.classes.shaders.SepiaShader;
 import com.crazy.contentdoesnotmatter.fragments.SelectorFragment.ResultReturner;
+import com.crazy.utils.utils;
 
 public class PhotoEffectsFragment extends Fragment implements ResultReturner {
 	
@@ -47,6 +48,7 @@ public class PhotoEffectsFragment extends Fragment implements ResultReturner {
 		originalImage = getArguments().getParcelable(SelectorFragment.RESULT);
 		imgView = (ImageView)rootView.findViewById(R.id.imageEditEffect);
 		resultImage = Bitmap.createBitmap(originalImage);
+		resultImage = utils.getRoundedRectBitmap(resultImage, 100);
 		imgView.setImageBitmap(resultImage);
 		
 		initShaderList();
@@ -55,8 +57,10 @@ public class PhotoEffectsFragment extends Fragment implements ResultReturner {
 		
 		for (final PixelShader shader : shaderList) {
 			ImageView view = new ImageView(rootView.getContext());
+			view.setPadding(5, 5, 5, 5);
 			Bitmap bitmap = Bitmap.createScaledBitmap(originalImage, 100, 100, false);
 			shader.applyShader(bitmap);
+			bitmap = utils.getRoundedRectBitmap(bitmap, 10);
 			view.setImageBitmap(bitmap);
 			view.setOnClickListener(new OnClickListener() {
 				
@@ -64,6 +68,7 @@ public class PhotoEffectsFragment extends Fragment implements ResultReturner {
 				public void onClick(View v) {
 					resultImage = Bitmap.createBitmap(originalImage);
 					shader.applyShader(resultImage);
+					resultImage = utils.getRoundedRectBitmap(resultImage, 100);
 					imgView.setImageBitmap(resultImage);
 				}
 			});

@@ -9,6 +9,12 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.provider.MediaStore.Images;
 
@@ -65,7 +71,8 @@ public class utils {
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFileDescriptor(file.getFileDescriptor(), null, options);
+		BitmapFactory.decodeFileDescriptor(file.getFileDescriptor(), null,
+				options);
 
 		// Calculate inSampleSize
 		options.inSampleSize = calculateInSampleSize(options, reqWidth,
@@ -73,6 +80,25 @@ public class utils {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		return BitmapFactory.decodeFileDescriptor(file.getFileDescriptor(), null, null);
+		return BitmapFactory.decodeFileDescriptor(file.getFileDescriptor(),
+				null, null);
+	}
+
+	public static Bitmap getRoundedRectBitmap(final Bitmap bitmap,
+			final int pixels) {
+		float roundPx;
+		final Bitmap result = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		final Canvas canvas = new Canvas(result);
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		final RectF rectF = new RectF(rect);
+		roundPx = pixels;
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return result;
 	}
 }
