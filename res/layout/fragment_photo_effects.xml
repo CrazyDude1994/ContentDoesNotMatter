@@ -2,30 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <ImageView android:id="@+id/imageEditEffect"
+
+    <ImageView
+        android:id="@+id/imageEditEffect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-    
-    <Button android:id="@+id/sepiaButton"
-        android:layout_width="wrap_content"
+        android:layout_above="@+id/shaderScrollView" />
+
+    <HorizontalScrollView
+        android:id="@id/shaderScrollView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Sepia"/>
-    
-    <Button android:id="@+id/grayScaleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/sepiaButton"
-        android:layout_alignParentBottom="true"
-        android:text="Grayscale"/>
-    
-    <Button android:id="@+id/blueBerryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/grayScaleButton"
-        android:layout_alignParentBottom="true"
-        android:text="Blueberry"/>
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:id="@+id/shaderList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </RelativeLayout>
