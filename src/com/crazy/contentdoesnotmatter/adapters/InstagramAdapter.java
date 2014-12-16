@@ -128,7 +128,6 @@ public class InstagramAdapter extends BaseAdapter {
 	private class FetchInstagramAnswer extends
 			AsyncTask<String, Void, ArrayList<PhotoInfo>> {
 
-		//final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/199862995/media/recent";
 		final static private String GET_USER_MEDIA = "https://api.instagram.com/v1/users/self/media/recent";
 		private ProgressDialog progressDialog;
 		

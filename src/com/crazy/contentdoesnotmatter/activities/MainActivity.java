@@ -1,5 +1,8 @@
 package com.crazy.contentdoesnotmatter.activities;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -7,16 +10,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+
 import com.crazy.contentdoesnotmatter.R;
 import com.crazy.contentdoesnotmatter.fragments.LoginFragment;
 import com.crazy.contentdoesnotmatter.views.PhotoView;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import com.crazy.utils.utils;
 
 public class MainActivity extends Activity {
 
@@ -87,11 +88,7 @@ public class MainActivity extends Activity {
 				InputStream imageStream;
 				try {
 					imageStream = getContentResolver().openInputStream(image);
-					BitmapFactory.Options options = new BitmapFactory.Options();
-					options.outHeight = 150;
-					options.outWidth = 150;
-					Bitmap selectedImage = BitmapFactory
-							.decodeStream(imageStream, null, options);
+					Bitmap selectedImage = utils.decodeSampledBitmapFromStream(imageStream, 150, 150);
 					PhotoView photoView;
 					if (requestCode == SELECT_BOT_GALLERY_PHOTO) {
 						photoView = (PhotoView)findViewById(R.id.bottomImage);

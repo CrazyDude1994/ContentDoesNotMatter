@@ -115,7 +115,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 		} else {
 			try {
 				AssetFileDescriptor fileDescriptor = getActivity().getContentResolver().openAssetFileDescriptor(firstImageUri, "r");
-				firstImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 600, 600);
+				firstImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 640, 640);
 				firstButton.setImage(Bitmap.createScaledBitmap(firstImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -138,7 +138,7 @@ public class PhotoCropFragment extends Fragment implements OnClickListener, Resu
 		} else {
 			try {
 				AssetFileDescriptor fileDescriptor = getActivity().getContentResolver().openAssetFileDescriptor(secondImageUri, "r");
-				secondImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 600, 600);
+				secondImageBitmap = utils.decodeSampledBitmapFromFile(fileDescriptor, 640, 640);
 				secondButton.setImage(Bitmap.createScaledBitmap(secondImageBitmap, 100, 100, false));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

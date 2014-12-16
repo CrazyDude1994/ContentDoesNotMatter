@@ -1,7 +1,9 @@
 package com.crazy.utils;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -81,7 +83,32 @@ public class utils {
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
 		return BitmapFactory.decodeFileDescriptor(file.getFileDescriptor(),
-				null, null);
+				null, options);
+	}
+
+	public static Bitmap decodeSampledBitmapFromStream(InputStream is,
+			int reqWidth, int reqHeight) {
+
+		// First decode with inJustDecodeBounds=true to check dimensions
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+
+		InputStream aux = new BufferedInputStream(is);
+		BitmapFactory.decodeStream(aux, null, options); // SkImageDecoder::Factory
+														// returned null
+		try {
+			aux.reset();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize(options, reqWidth,
+				reqHeight);
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeStream(aux, null, options);
 	}
 
 	public static Bitmap getRoundedRectBitmap(final Bitmap bitmap,
